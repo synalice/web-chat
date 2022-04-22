@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "web-chat"
+version = "0.1.0"
+description = ""
+authors = ["Nikita Krasnov <nikita.nikita.krasnov@gmail.com>"]
+readme = "README.md"
+packages = [{include = "web_chat"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
