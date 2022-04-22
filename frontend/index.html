@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+
 	<title>web-chat</title>
+
 	<link rel="stylesheet" href="style.css">
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+	<script src="main.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -13,17 +17,21 @@
 	</header>
 	<main>
 		<div class="posts">
-			Hello, World!
+			<div class="post">
+				<div class="post-header">
+					<div class="post-number">#00-00-01</div>
+					<div class="post-date">04/22/2022 21:22</div>
+				</div>
+				<div class="port-contents">This is a template post!</div>
+			</div>
 		</div>
 	</main>
 	<footer>
-		<form action="#" name="message-form" accept-charset="UTF-8" enctype="text/plain">
+		<form id="message-form" method="post">
 			<label for="message-input">
-				<input type="text" name="message-input" id="message-input" placeholder="Start typing...">
+				<textarea id="message-input" placeholder="Start typing..."></textarea>
 			</label>
-			<button id="message-send" type="button">
-				Send
-			</button>
+			<input id="message-send" type="button" value="Send" onclick="get_message_text();"></input>
 		</form>
 	</footer>
 </div>
