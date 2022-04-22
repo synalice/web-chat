@@ -8,6 +8,8 @@ packages = [{include = "web_chat"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.75.2"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
 
 [build-system]
 requires = ["poetry-core"]
