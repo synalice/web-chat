@@ -1,21 +1,3 @@
-class Message {
-
-	constructor(input_box_name) {
-		this.input_box_name = input_box_name
-	}
-
-	text;
-
-	get_message_text() {
-		return this.text = document.querySelector(`${this.input_box_name}`).value;
-	}
-
-	clean_input_box() {
-		return document.querySelector(`${this.input_box_name}`).value = "";
-	}
-}
-
-
 class Sender {
 
 	constructor(api_url) {
@@ -47,4 +29,27 @@ class Sender {
 		});
 	}
 
+}
+
+
+class Message extends Sender {
+
+	constructor(input_box_name, api_url) {
+		super(api_url);
+		this.input_box_name = input_box_name
+	}
+
+	text;
+
+	static get_last_id() {
+
+	}
+
+	get_message_text() {
+		return this.text = document.querySelector(`${this.input_box_name}`).value;
+	}
+
+	clean_input_box() {
+		return document.querySelector(`${this.input_box_name}`).value = "";
+	}
 }
