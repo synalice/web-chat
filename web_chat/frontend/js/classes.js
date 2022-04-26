@@ -4,28 +4,22 @@ class Sender {
 		this.api_url = api_url
 	}
 
-	static message;
-	static payload;
+	payload;
 
-	static prepare_message(message_text) {
-		Sender.message = {
-			"id": 1, "date": get_current_date(), "content": message_text
+	prepare_message(id, date, message_text) {
+		let message = {
+			"id": id, "date": date, "content": message_text
+		}
+		this.payload = {
+			method: "POST", body: JSON.stringify(message), headers: {
+				"Access-Control-Allow-Origin": "*", "Content-Type": "application/json",
+			}
 		}
 	}
 
-	static prepare_payload() {
-		Sender.payload = {
-			method: "POST", body: JSON.stringify(Sender.message), headers: {
-				"Access-Control-Allow-Origin": "*", "Content-Type": "application/json",
-			},
-		};
-	}
 
-	send_post_request(message_text) {
-		Sender.prepare_message(message_text)
-		Sender.prepare_payload();
-
-		fetch(this.api_url, Sender.payload).then(() => {
+	send_post_request() {
+		fetch(this.api_url, this.payload).then(() => {
 		});
 	}
 
@@ -39,17 +33,46 @@ class Message extends Sender {
 		this.input_box_name = input_box_name
 	}
 
-	text;
+	formatted_id;
+	unformatted_id;
+	message;
+	date;
 
-	static get_last_id() {
+	get_id() {
+		let last_post = (document.getElementsByClassName("post"))[0]
+		this.unformatted_id = last_post.getElementsByClassName("post-header")[0]
+			.getElementsByClassName("post-number")[0].innerHTML
 
 	}
 
-	get_message_text() {
-		return this.text = document.querySelector(`${this.input_box_name}`).value;
+	format_id() {
+		this.formatted_id = parseInt((this.unformatted_id.slice(1)).split("-").join(""))
 	}
+
+	get_message() {
+		this.message = document.querySelector(`${this.input_box_name}`).value;
+	}
+
+	get_date() {
+		let current_date = new Date().toLocaleDateString();
+		let current_time = new Date().toLocaleTimeString('en-US', {
+			hour12: false, hour: "numeric", minute: "numeric", second: "numeric"
+		});
+		this.date = current_date + " " + current_time;
+	}
+
 
 	clean_input_box() {
-		return document.querySelector(`${this.input_box_name}`).value = "";
+		document.querySelector(`${this.input_box_name}`).value = "";
+	}
+
+	send_message() {
+		this.get_id()
+		this.format_id()
+		this.get_message()
+		this.get_date()
+		this.prepare_message(this.formatted_id, this.date, this.message)
+		this.send_post_request()
+		this.clean_input_box()
 	}
 }
