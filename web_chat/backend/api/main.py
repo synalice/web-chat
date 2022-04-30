@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from web_chat.backend.api.models import Post
+from web_chat.backend.db.models import Post
+from web_chat.backend.db.mongo import insert_into_mongodb
 
 app = FastAPI()
 
-origins = [
-	"http://localhost",
-]
+origins = ["*"]
 
 app.add_middleware(
 	CORSMiddleware,
@@ -19,16 +18,7 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def home(request: Request):
-	return {"Hello": "World"}
-
-
-@app.post("/web-chat/posts/new")
-async def update_item(message: Post):
-	with open("../database.txt", "a") as f:
-		if not message.content:
-			pass
-		else:
-			f.write(message.content + "\n")
+@app.put("/web-chat/posts/new")
+async def post_message(message: Post):
+	await insert_into_mongodb(message)
 	return {"status": "OK"}

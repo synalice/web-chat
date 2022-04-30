@@ -8,10 +8,10 @@ class Sender {
 
 	prepare_message(id, date, message_text) {
 		let message = {
-			"id": id, "date": date, "content": message_text
+			"_id": id, "date": date, "content": message_text
 		}
 		this.payload = {
-			method: "POST", body: JSON.stringify(message), headers: {
+			method: "PUT", body: JSON.stringify(message), headers: {
 				"Access-Control-Allow-Origin": "*", "Content-Type": "application/json",
 			}
 		}
