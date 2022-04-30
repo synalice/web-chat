@@ -7,29 +7,36 @@ from web_chat.backend.db.models import Post
 MONGODB_URL = os.environ.get("MONGODB_URL")
 DB_NAME = os.environ.get("DB_NAME")
 
-client = MongoClient(f"{MONGODB_URL}")
+client: MongoClient = MongoClient(f"{MONGODB_URL}")
 db = client[f"{DB_NAME}"]
-
-
 # collection = db['messages_collection']
 
 
-async def insert_into_mongodb(model: Post, collection: str) -> None:
+async def insert_into_mongodb(post: Post, collection: str) -> None:
 	"""
 	Inserts a Post model into the database
 
 	:param collection:
-	:param model:
+	:param post:
 	:return:
 	"""
-	post = model.dict(by_alias=True)
+	post = post.dict(by_alias=True)
 	db[collection].insert_one(post)
 
 
 async def get_one_last_post():
+	"""
+	TODO
+
+	:return:
+	"""
 	...
 
 
-async def get_all_posts():
-	""" pass """
-	...
+async def get_all_posts(collection: str):
+	"""
+	Gets all documents from specified collection
+
+	:return:
+	"""
+	return list(db[collection].find({}))

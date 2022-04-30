@@ -19,12 +19,11 @@ app.add_middleware(
 
 
 @app.put("/web-chat/posts/new")
-async def post_message(message: Post):
+async def put_new_message(message: Post):
 	await insert_into_mongodb(message, "messages_collection")
 	return {"status": "OK"}
 
 
-@app.put("/web-chat/posts/get_all")
+@app.get("/web-chat/posts/get_all")
 async def get_all_messages():
-	await get_all_posts()
-	return {"status": "OK"}
+	return await get_all_posts("messages_collection")
