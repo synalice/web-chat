@@ -8,7 +8,7 @@ class Sender {
 
 	prepare_message(id, date, message_text) {
 		let message = {
-			"_id": id, "date": date, "content": message_text
+			"id": id, "date": date, "content": message_text
 		}
 		this.payload = {
 			method: "PUT", body: JSON.stringify(message), headers: {
