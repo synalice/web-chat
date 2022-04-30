@@ -14,6 +14,7 @@ pymongo = "^4.1.1"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.950"
+click = "^8.1.3"
 
 [build-system]
 requires = ["poetry-core"]
