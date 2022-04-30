@@ -4,13 +4,16 @@ version = "0.1.0"
 description = ""
 authors = ["Nikita Krasnov <nikita.nikita.krasnov@gmail.com>"]
 readme = "README.md"
-packages = [{include = "web_chat"}]
+packages = [{ include = "web_chat" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = "^0.75.2"
 uvicorn = { extras = ["standard"], version = "^0.17.6" }
 pymongo = "^4.1.1"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.950"
 
 [build-system]
 requires = ["poetry-core"]
