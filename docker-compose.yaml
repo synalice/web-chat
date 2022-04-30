@@ -1,0 +1,29 @@
+version: "3.3"
+
+volumes:
+    mongo_db_data:
+
+
+services:
+
+    # MongoDB
+    mongo:
+        container_name: web-chat-mongo
+        image: mongo:latest
+        restart: always
+        ports:
+            - "2717:27017"
+        volumes:
+            - mongo_db_data:/data/mongo
+
+    # FastAPI API
+    api:
+        container_name: web-chat
+        build: .
+        depends_on:
+            - mongo
+        ports:
+            - "8000:8000"
+        environment:
+            MONGODB_URL: mongodb://localhost:27017
+            DB_NAME: messages_database
