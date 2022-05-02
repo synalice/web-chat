@@ -5,7 +5,7 @@ COPY pyproject.toml ./
 RUN pip install pipx
 RUN pip install poetry
 RUN poetry config virtualenvs.create false
-RUN	poetry install --no-root
+RUN	poetry install --no-root --no-dev
 
 COPY web_chat/ /web-chat/web_chat/
 
