@@ -4,9 +4,9 @@ This will be a small and simple online chat for multiple people
 Goals:
 - [x] Basic UI
 - [x] API to publish posts
-- [ ] API to retrieve posts
-- [ ] Database
-- [ ] docker-compose  
+- [x] API to retrieve posts
+- [x] Database
+- [x] docker-compose
 - [ ] Websockets
 - [ ] Spam protection
 - [ ] Browser notifications
