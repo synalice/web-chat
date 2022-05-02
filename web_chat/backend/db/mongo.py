@@ -9,6 +9,8 @@ DB_NAME = os.environ.get("DB_NAME")
 
 client: MongoClient = MongoClient(f"{MONGODB_URL}")
 db = client[f"{DB_NAME}"]
+
+
 # collection = db['messages_collection']
 
 
@@ -39,4 +41,4 @@ async def get_all_posts(collection: str):
 
 	:return:
 	"""
-	return list(db[collection].find({}))
+	return {"posts": list(db[collection].find({}))}
