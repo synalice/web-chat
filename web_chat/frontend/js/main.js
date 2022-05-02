@@ -1,4 +1,4 @@
-const message = new Message("#message-input", "http://syn-server.tech:8000/web-chat/");
+const message = new Message("#message-input", "https://syn-server.tech/web-chat/");
 const renderer = new Renderer();
 
 renderer.render_all_posts().then()
