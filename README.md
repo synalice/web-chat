@@ -1,5 +1,6 @@
 # web-chat
-This will be a small and simple online chat for multiple people
+This is a small and very simple online chat that works by sending and getting API requests  
+https://syn-server.tech/ 
 
 Goals:
 - [x] Basic UI
