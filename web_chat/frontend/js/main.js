@@ -4,6 +4,8 @@ const renderer = new Renderer();
 renderer.render_all_posts().then()
 set_keyboard_shortcuts();
 
-function main() {
-	message.send_message();
+async function main() {
+	await message.send_message();
+	await renderer.remove_all_posts();
+	await renderer.render_all_posts();
 }

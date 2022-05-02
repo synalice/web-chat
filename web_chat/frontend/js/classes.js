@@ -120,6 +120,11 @@ class Renderer extends Message {
 		return data_divs;
 	}
 
+	async remove_all_posts() {
+		const posts = document.querySelector("#posts");
+		posts.innerHTML = "";
+	}
+
 	async render_all_posts() {
 		let posts = ((await message.send_get_request("posts/get_all"))["posts"]).reverse();
 		for (let i = 0; i < posts.length; i++) {
