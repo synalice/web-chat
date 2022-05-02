@@ -1,9 +1,9 @@
 class Sender {
+	payload;
+
 	constructor(api_url) {
 		this.api_url = api_url
 	}
-
-	payload;
 
 	prepare_message(id, date, message_text) {
 		let message = {
@@ -30,14 +30,14 @@ class Sender {
 
 
 class Message extends Sender {
+	id;
+	message;
+	date;
+
 	constructor(input_box_name, api_url) {
 		super(api_url);
 		this.input_box_name = input_box_name
 	}
-
-	id;
-	message;
-	date;
 
 	async get_id() {
 		this.id = ((await this.send_get_request("posts/get_last_id"))["last_id"]) + 1
@@ -100,11 +100,9 @@ class Renderer extends Message {
 
 		const post = posts.appendChild(wrapper_divs[0])
 		const post_header = post.appendChild(wrapper_divs[1])
-
-		const post_number = post_header.appendChild(filled_divs[0])
-		const post_date = post_header.appendChild(filled_divs[1])
-		const post_contents = post.appendChild(filled_divs[2])
-
+		post_header.appendChild(filled_divs[0]);
+		post_header.appendChild(filled_divs[1]);
+		post.appendChild(filled_divs[2]);
 		return post
 	}
 
