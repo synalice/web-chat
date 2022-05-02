@@ -50,4 +50,7 @@ async def get_last_id_db(collection: str):
 
 	:return:
 	"""
-	return {"last_id": (list(db[collection].find())[-1]).get("_id")}
+	try:
+		return {"last_id": (list(db[collection].find())[-1]).get("_id")}
+	except IndexError:
+		return {"last_id": 0}

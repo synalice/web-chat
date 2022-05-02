@@ -127,10 +127,14 @@ class Renderer extends Message {
 
 	async render_all_posts() {
 		let posts = ((await message.send_get_request("posts/get_all"))["posts"]).reverse();
-		for (let i = 0; i < posts.length; i++) {
-			const wrapper_divs = await this.create_wrapper_divs()
-			const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), posts[i]["date"], posts[i]["content"]]);
-			await this.build_post(wrapper_divs, filled_divs)
+		if (posts.length === 0) {
+			//	do nothing
+		} else {
+			for (let i = 0; i < posts.length; i++) {
+				const wrapper_divs = await this.create_wrapper_divs()
+				const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), posts[i]["date"], posts[i]["content"]]);
+				await this.build_post(wrapper_divs, filled_divs)
+			}
 		}
 	}
 }
