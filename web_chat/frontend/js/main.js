@@ -1,4 +1,7 @@
-const message = new Message("#message-input", "http://127.0.0.1:8000/web-chat/posts/new");
+const message = new Message("#message-input", "http://localhost:8000/web-chat/");
+const renderer = new Renderer();
+
+renderer.render_all_posts().then()
 set_keyboard_shortcuts();
 
 function main() {

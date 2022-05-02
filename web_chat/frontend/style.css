@@ -41,7 +41,7 @@ main {
 	height: 74vh;
 }
 
-.posts {
+#posts {
 	overflow-y: scroll;
 	height: 100%;
 
