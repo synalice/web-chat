@@ -35,20 +35,12 @@ class Message extends Sender {
 		this.input_box_name = input_box_name
 	}
 
-	formatted_id;
-	unformatted_id;
+	id;
 	message;
 	date;
 
-	get_id() {
-		let last_post = (document.getElementsByClassName("post"))[0]
-		this.unformatted_id = last_post.getElementsByClassName("post-header")[0]
-			.getElementsByClassName("post-number")[0].innerHTML
-
-	}
-
-	format_id() {
-		this.formatted_id = parseInt((this.unformatted_id.slice(1)).split("-").join(""))
+	async get_id() {
+		this.id = ((await this.send_get_request("posts/get_last_id"))["last_id"]) + 1
 	}
 
 	get_message() {
@@ -68,12 +60,11 @@ class Message extends Sender {
 		document.querySelector(`${this.input_box_name}`).value = "";
 	}
 
-	send_message() {
-		this.get_id()
-		this.format_id()
+	async send_message() {
+		await this.get_id()
 		this.get_message()
 		this.get_date()
-		this.prepare_message(this.formatted_id, this.date, this.message)
+		this.prepare_message(this.id, this.date, this.message)
 		this.send_put_request("posts/new")
 		this.clean_input_box()
 	}

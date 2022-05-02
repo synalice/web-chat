@@ -35,10 +35,19 @@ async def get_one_last_post():
 	...
 
 
-async def get_all_posts(collection: str):
+async def get_all_posts_db(collection: str):
 	"""
 	Gets all documents from specified collection
 
 	:return:
 	"""
-	return {"posts": list(db[collection].find({}))}
+	return {"posts": list(db[collection].find())}
+
+
+async def get_last_id_db(collection: str):
+	"""
+	Gets id of most recent document in the database
+
+	:return:
+	"""
+	return {"last_id": (list(db[collection].find())[-1]).get("_id")}

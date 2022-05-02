@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from web_chat.backend.db.models import Post
-from web_chat.backend.db.mongo import insert_into_mongodb, get_all_posts
+from web_chat.backend.db.mongo import insert_into_mongodb, get_all_posts_db, get_last_id_db
 
 app = FastAPI()
 
@@ -25,5 +25,10 @@ async def put_new_message(message: Post):
 
 
 @app.get("/web-chat/posts/get_all")
-async def get_all_messages():
-	return await get_all_posts("messages_collection")
+async def get_all_posts():
+	return await get_all_posts_db("messages_collection")
+
+
+@app.get("/web-chat/posts/get_last_id")
+async def get_last_id():
+	return await get_last_id_db("messages_collection")
