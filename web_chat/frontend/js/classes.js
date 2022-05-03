@@ -125,6 +125,10 @@ class Renderer extends Message {
 		posts.innerHTML = "";
 	}
 
+	async get_date_wo_secs(date) {
+		return date.slice(0, -3);
+	}
+
 	async render_all_posts() {
 		let posts = ((await message.send_get_request("posts/get_all"))["posts"]).reverse();
 		if (posts.length === 0) {
@@ -132,7 +136,7 @@ class Renderer extends Message {
 		} else {
 			for (let i = 0; i < posts.length; i++) {
 				const wrapper_divs = await this.create_wrapper_divs()
-				const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), posts[i]["date"], posts[i]["content"]]);
+				const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), await this.get_date_wo_secs(posts[i]["date"]), posts[i]["content"]]);
 				await this.build_post(wrapper_divs, filled_divs)
 			}
 		}
