@@ -39,31 +39,16 @@ class Message extends Sender {
 		this.input_box_name = input_box_name
 	}
 
-	async get_id() {
-		this.id = ((await this.send_get_request("posts/get_last_id"))["last_id"]) + 1
-	}
-
 	get_message() {
 		this.message = document.querySelector(`${this.input_box_name}`).value;
 	}
-
-	get_date() {
-		let current_date = new Date().toLocaleDateString();
-		let current_time = new Date().toLocaleTimeString('en-US', {
-			hour12: false, hour: "numeric", minute: "numeric", second: "numeric"
-		});
-		this.date = current_date + " " + current_time;
-	}
-
 
 	clean_input_box() {
 		document.querySelector(`${this.input_box_name}`).value = "";
 	}
 
 	async send_message() {
-		await this.get_id()
 		this.get_message()
-		this.get_date()
 		this.prepare_message(this.id, this.date, this.message)
 		this.send_put_request("posts/new")
 		this.clean_input_box()
@@ -97,7 +82,6 @@ class Renderer extends Message {
 
 	async build_post(wrapper_divs, filled_divs) {
 		const posts = document.querySelector("#posts")
-
 		const post = posts.appendChild(wrapper_divs[0])
 		const post_header = post.appendChild(wrapper_divs[1])
 		post_header.appendChild(filled_divs[0]);
@@ -108,6 +92,12 @@ class Renderer extends Message {
 
 	async format_id(id) {
 		return ("#" + ((id.toString()).padStart(6, "0").match(/.{1,2}/g))).replace(new RegExp(",", "g"), "-");
+	}
+
+	async format_date(timestamp) {
+		let date = new Date(timestamp * 1000).toLocaleDateString(undefined)
+		let time = new Date(timestamp * 1000).toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})
+		return `${date} ${time}`
 	}
 
 	async fill_divs(data_divs, array_of_data) {
@@ -125,10 +115,6 @@ class Renderer extends Message {
 		posts.innerHTML = "";
 	}
 
-	async get_date_wo_secs(date) {
-		return date.slice(0, -3);
-	}
-
 	async render_all_posts() {
 		let posts = ((await message.send_get_request("posts/get_all"))["posts"]).reverse();
 		if (posts.length === 0) {
@@ -136,7 +122,7 @@ class Renderer extends Message {
 		} else {
 			for (let i = 0; i < posts.length; i++) {
 				const wrapper_divs = await this.create_wrapper_divs()
-				const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), await this.get_date_wo_secs(posts[i]["date"]), posts[i]["content"]]);
+				const filled_divs = await this.fill_divs(await this.create_data_divs(), [await this.format_id(posts[i]["_id"]), await this.format_date(posts[i]["date"]), posts[i]["content"]]);
 				await this.build_post(wrapper_divs, filled_divs)
 			}
 		}
