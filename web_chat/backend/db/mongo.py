@@ -1,4 +1,5 @@
 import os
+import time
 
 from pymongo import MongoClient
 
@@ -11,7 +12,27 @@ client: MongoClient = MongoClient(f"{MONGODB_URL}")
 db = client[f"{DB_NAME}"]
 
 
-# collection = db['messages_collection']
+async def add_id_to_post(post: dict, collection: str):
+	"""
+	Adds and id to the received post
+
+	:param collection:
+	:param post:
+	:return:
+	"""
+	post["_id"] = await get_last_id_db(collection) + 1
+	return post
+
+
+async def add_date_to_post(post: dict):
+	"""
+	Adds a date to the received post
+
+	:param post:
+	:return:
+	"""
+	post["date"] = time.time()
+	return post
 
 
 async def insert_into_mongodb(post: Post, collection: str) -> None:
@@ -23,6 +44,8 @@ async def insert_into_mongodb(post: Post, collection: str) -> None:
 	:return:
 	"""
 	post = post.dict(by_alias=True)
+	post = await add_id_to_post(post, collection)
+	post = await add_date_to_post(post)
 	db[collection].insert_one(post)
 
 
@@ -35,13 +58,13 @@ async def get_one_last_post():
 	...
 
 
-async def get_all_posts_db(collection: str):
+async def get_all_posts_db(collection: str) -> list:
 	"""
 	Gets all documents from specified collection
 
 	:return:
 	"""
-	return {"posts": list(db[collection].find())}
+	return list(db[collection].find())
 
 
 async def get_last_id_db(collection: str):
@@ -51,6 +74,6 @@ async def get_last_id_db(collection: str):
 	:return:
 	"""
 	try:
-		return {"last_id": (list(db[collection].find())[-1]).get("_id")}
+		return (list(db[collection].find())[-1]).get("_id")
 	except IndexError:
-		return {"last_id": 0}
+		return 0
