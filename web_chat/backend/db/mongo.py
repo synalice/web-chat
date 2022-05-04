@@ -58,13 +58,13 @@ async def get_one_last_post():
 	...
 
 
-async def get_all_posts_db(collection: str):
+async def get_all_posts_db(collection: str) -> list:
 	"""
 	Gets all documents from specified collection
 
 	:return:
 	"""
-	return {"posts": list(db[collection].find())}
+	return list(db[collection].find())
 
 
 async def get_last_id_db(collection: str):
@@ -74,6 +74,6 @@ async def get_last_id_db(collection: str):
 	:return:
 	"""
 	try:
-		return {"last_id": (list(db[collection].find())[-1]).get("_id")}
+		return (list(db[collection].find())[-1]).get("_id")
 	except IndexError:
-		return {"last_id": 0}
+		return 0
