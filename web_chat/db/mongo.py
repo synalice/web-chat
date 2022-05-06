@@ -16,8 +16,8 @@ async def add_id_to_post(post: dict, collection: str):
 	"""
 	Adds and id to the received post
 
-	:param collection:
-	:param post:
+	:param post: Post model
+	:param collection: Mongo collection
 	:return:
 	"""
 	post["_id"] = await get_last_id_db(collection) + 1
@@ -28,7 +28,7 @@ async def add_date_to_post(post: dict):
 	"""
 	Adds a date to the received post
 
-	:param post:
+	:param post: Post model
 	:return:
 	"""
 	post["date"] = time.time()
@@ -39,8 +39,8 @@ async def insert_into_mongodb(post: Post, collection: str) -> None:
 	"""
 	Inserts a Post model into the database
 
-	:param collection:
-	:param post:
+	:param post: Post model
+	:param collection: Mongo collection
 	:return:
 	"""
 	post = post.dict(by_alias=True)
@@ -76,6 +76,7 @@ async def get_last_id_db(collection: str):
 	"""
 	Gets id of most recent document in the database
 
+	:param collection: Mongo collection
 	:return:
 	"""
 	try:
