@@ -4,7 +4,7 @@
 		<div class="post">
 			<div class="post-header">
 				<div class="post-number">{{ post._id }}</div>
-				<div class="post-date">{{ post.date }}</div>
+				<div class="post-date">{{ (post.date)[:-10] }}</div>
 			</div>
 			<div class="post-contents">{{ post.content }}</div>
 		</div>
