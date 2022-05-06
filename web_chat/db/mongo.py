@@ -3,6 +3,7 @@ import time
 
 from pymongo import MongoClient
 
+from web_chat.api.utils.utils import convert_timestamp_to_date
 from web_chat.db.models import Post
 
 MONGODB_URL = os.environ.get("MONGODB_URL")
@@ -58,18 +59,25 @@ async def get_one_last_post():
 	raise NotImplementedError
 
 
-async def get_all_posts_db(collection: str, reversed_order: bool = False) -> list:
+async def get_all_posts_db(collection: str, reversed_order: bool = False, convert_timestamp: bool = True) -> list:
 	"""
 	Gets all documents from specified collection
 
+	:param convert_timestamp: Determines if timestamp should be converted to human-readable date
 	:param collection: Mongo collection
 	:param reversed_order: Determines if the posts should be returned in reversed order
 	:return:
 	"""
+	# TODO: This code like pure concentrated shit. Is there a better way I'm not seeing?
 	if reversed_order is True:
-		return list(db[collection].find())  # returned with IDs [1, 2, 3, 4, 5...]
+		returned_value = list(db[collection].find())  # returned with IDs [1, 2, 3, 4, 5...]
 	else:
-		return list(db[collection].find())[::-1]  # returned with IDs [5, 4, 3, 2, 1...]
+		returned_value = list(db[collection].find())[::-1]  # returned with IDs [5, 4, 3, 2, 1...]
+
+	if convert_timestamp is True:
+		returned_value = await convert_timestamp_to_date(returned_value)
+
+	return returned_value
 
 
 async def get_last_id_db(collection: str):

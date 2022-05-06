@@ -45,11 +45,13 @@ async def put_new_message(message: Post):
 
 
 @app.get("/web-chat/posts/get_all")
-async def get_all_posts(reversed_order: bool = False):
-	if reversed_order:
-		return {"posts": await get_all_posts_db(MONGO_COLLECTION, reversed_order=True)}
-	else:
-		return {"posts": await get_all_posts_db(MONGO_COLLECTION)}
+async def get_all_posts(reversed_order: bool = False, convert_timestamp: bool = True):
+	return {
+		"posts": await get_all_posts_db(
+			MONGO_COLLECTION,
+			reversed_order=reversed_order,
+			convert_timestamp=convert_timestamp)
+	}
 
 
 @app.get("/web-chat/posts/get_last_id")
