@@ -6,20 +6,19 @@
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-	<link rel="stylesheet" href="style.css">
-	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="../static/style.css">
+	<link rel="shortcut icon" href="../static/images/favicon.png" type="image/x-icon">
 
-	<script src="js/classes.js"></script>
-	<script src="js/utils.js"></script>
-	<!-- Do not move this tag below! It has to be loaded after everything else-->
-	<script src="js/main.js"></script>
+	<script src="../static/main.js"></script>
 </head>
 <body>
 <div class="wrapper">
 	<header>
 		<div>This is an online forum. Say hi!</div>
 	</header>
-	<div id="posts"></div>
+	<div id="posts">
+		{% block posts %}{% endblock %}
+	</div>
 	<footer>
 		<form id="message-form" method="post">
 			<label for="message-input">
