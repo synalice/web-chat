@@ -19,7 +19,9 @@
 	<header>
 		<div>This is an online forum. Say hi!</div>
 	</header>
-	<div id="posts"></div>
+	<div id="posts">
+		{% block posts %}{% endblock %}
+	</div>
 	<footer>
 		<form id="message-form" method="post">
 			<label for="message-input">
