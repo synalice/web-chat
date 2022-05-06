@@ -14,7 +14,7 @@ async function sendMessage(inputBox) {
 			"Access-Control-Allow-Origin": "*", "Content-Type": "application/json",
 		}
 	}
-	await fetch("http://localhost:8000/web-chat/posts/new", payload)
+	await fetch("https://syn-server.tech/web-chat/posts/new", payload)
 }
 
 async function clearInputBox(inputBox) {
