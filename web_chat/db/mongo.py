@@ -55,16 +55,21 @@ async def get_one_last_post():
 
 	:return:
 	"""
-	...
+	raise NotImplementedError
 
 
-async def get_all_posts_db(collection: str) -> list:
+async def get_all_posts_db(collection: str, reversed_order: bool = False) -> list:
 	"""
 	Gets all documents from specified collection
 
+	:param collection: Mongo collection
+	:param reversed_order: Determines if the posts should be returned in reversed order
 	:return:
 	"""
-	return list(db[collection].find())
+	if reversed_order is True:
+		return list(db[collection].find())  # returned with IDs [1, 2, 3, 4, 5...]
+	else:
+		return list(db[collection].find())[::-1]  # returned with IDs [5, 4, 3, 2, 1...]
 
 
 async def get_last_id_db(collection: str):
