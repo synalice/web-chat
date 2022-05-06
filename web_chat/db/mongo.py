@@ -3,7 +3,7 @@ import time
 
 from pymongo import MongoClient
 
-from web_chat.backend.db.models import Post
+from web_chat.db.models import Post
 
 MONGODB_URL = os.environ.get("MONGODB_URL")
 DB_NAME = os.environ.get("DB_NAME")
