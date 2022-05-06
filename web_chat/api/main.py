@@ -30,22 +30,18 @@ app.add_middleware(
 
 @app.get("/web-chat/", response_class=HTMLResponse)
 async def render_html_page(request: Request, reversed_order: bool = False):
-	if reversed_order:
-		return TEMPLATES.TemplateResponse(
-			"posts.html.jinja2",
-			{"request": request, "posts": await get_all_posts_db(MONGO_COLLECTION, reversed_order=True)}
-		)
-	else:
-		return TEMPLATES.TemplateResponse(
-			"posts.html.jinja2",
-			{"request": request, "posts": await get_all_posts_db(MONGO_COLLECTION)}
-		)
+	return TEMPLATES.TemplateResponse(
+		"posts.html.jinja2",
+		{"request": request, "posts": await get_all_posts_db(MONGO_COLLECTION, reversed_order=reversed_order)}
+	)
 
 
 @app.put("/web-chat/posts/new")
 async def put_new_message(message: Post):
 	await insert_into_mongodb(message, MONGO_COLLECTION)
-	return {"status": "OK"}
+	return {
+		"status": "OK"
+	}
 
 
 @app.get("/web-chat/posts/get_all")
@@ -58,4 +54,6 @@ async def get_all_posts(reversed_order: bool = False):
 
 @app.get("/web-chat/posts/get_last_id")
 async def get_last_id():
-	return {"last_id": await get_last_id_db(MONGO_COLLECTION)}
+	return {
+		"last_id": await get_last_id_db(MONGO_COLLECTION)
+	}
