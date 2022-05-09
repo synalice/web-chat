@@ -20,6 +20,7 @@ services:
     api:
         container_name: web-chat
         build: .
+        restart: always
         depends_on:
             - mongo
         ports:
